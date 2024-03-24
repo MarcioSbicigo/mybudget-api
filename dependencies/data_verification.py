@@ -10,7 +10,7 @@ def verify_password(plain_password, hashed_password):
     pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
     return pwd_context.verify(plain_password, hashed_password)
 
-def verify_session(username, session_id):
+def verify_session(username: str, session_id: str):
     try:
         existing_session = get_sessions_collection().find_one({"username": username})
         if existing_session and existing_session["session_id"] == session_id:
