@@ -10,3 +10,9 @@ class PostCategorie(BaseModel):
     type_category: str
     username: str
     session_id: str
+
+class DeleteCategory(BaseModel):
+    name_category: str
+    type_category: str
+    username: str
+    session_id: str

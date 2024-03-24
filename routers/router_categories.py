@@ -21,8 +21,7 @@ async def load_categories(request: GetCategorie):
             return JSONResponse(content={"Content": categories})
     else:
         return JSONResponse(content={"Content": "error"})
-    
-    
+     
 @router.post("/api/categories")
 async def insert_category(request: PostCategorie):
     if verify_session(request.username, request.session_id):
@@ -30,11 +29,27 @@ async def insert_category(request: PostCategorie):
         
         if request.type_category == 'receita':
             user_db['categorias_receita'].insert_one({'name': request.name_category})
-            return JSONResponse(content={"Content": "Category successfully added."})
+            return JSONResponse(content={"Content": "Income category successfully added."})
 
         if request.type_category == 'despesa':
             user_db['categorias_despesa'].insert_one({'name': request.name_category})
-            return JSONResponse(content={"Content": "Category successfully added."})
+            return JSONResponse(content={"Content": "Expense category successfully added."})
+            
+    else:
+        return JSONResponse(content={"Content": "error"})
+
+@router.delete("/api/categories")
+def remove_category(request: DeleteCategory):
+    if verify_session(request.username, request.session_id):
+        user_db = get_user_database_connection(request.username)
+        
+        if request.type_category == 'receita':
+            user_db['categorias_receita'].delete_one({'name': request.name_category})
+            return JSONResponse(content={"Content": "Income category successfully removed."})
+
+        if request.type_category == 'despesa':
+            user_db['categorias_despesa'].delete_one({'name': request.name_category})
+            return JSONResponse(content={"Content": "Expense category successfully removed."})
             
     else:
         return JSONResponse(content={"Content": "error"})
