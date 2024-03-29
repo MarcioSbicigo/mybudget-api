@@ -16,7 +16,7 @@ def get_database_connection():
         return db
     
     except Exception as error:
-        print(f'Erro ao acessar database principal: {error}')
+        print(f'Error accessing main database: {error}')
         return None
 
 def get_user_database_connection(username: str):
@@ -29,7 +29,7 @@ def get_user_database_connection(username: str):
         return db
     
     except Exception as error:
-        print(f'Erro ao acessar database {database_name}: {error}')
+        print(f'Error accessing user database {database_name}: {error}')
         return None
 
 def get_users_collection():
@@ -42,7 +42,7 @@ def get_users_collection():
         return users_collection
     
     except Exception as error:
-        print(f'Erro ao acessar collection de usuários: {error}')
+        print(f'Error accessing users collection: {error}')
         return None
 
 def get_sessions_collection():
@@ -55,7 +55,7 @@ def get_sessions_collection():
         return sessions_collection
     
     except Exception as error:
-        print(f'Erro ao acessar collection de sessões: {error}')
+        print(f'Error accessing sessions collection: {error}')
         return None
 
 def insert_log(event: str, collection='log_aplicacao', database_name='MyBudget'):
@@ -69,5 +69,5 @@ def insert_log(event: str, collection='log_aplicacao', database_name='MyBudget')
         app_log.insert_one(log)
     
     except Exception as error:
-            print(f'Erro ao inserir log: {error}')
+            print(f'Error inserting log: {error}')
 
