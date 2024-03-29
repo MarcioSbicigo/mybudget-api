@@ -36,10 +36,10 @@ def init_database_user(username):
                 cat = {'name': categoria}
                 user_db['categorias_despesa'].insert_one(cat)
                 
-            insert_log(f'Banco de dados criado: mb_{username}.')
+            insert_log(f'Database created: mb_{username}.')
             
         except Exception as error:
-            print(f'Erro ao inicializar banco de dados de {username}: {error}')
+            print(f'Error initializing {username} database: {error}')
 
 @router.post("/api/register")
 async def register(request: register_request):
@@ -50,11 +50,11 @@ async def register(request: register_request):
             if 'all_users' in db.list_collection_names():
                 existing_user = get_users_collection().find_one({"username": request.username})
                 if existing_user:
-                    raise HTTPException(status_code=400, detail="Nome de usuário já existente.")
+                    raise HTTPException(status_code=400, detail="Username already exist.")
 
                 existing_email = get_users_collection().find_one({"email": request.email})
                 if existing_email:
-                    raise HTTPException(status_code=400, detail="E-mail já existente.")
+                    raise HTTPException(status_code=400, detail="E-mail already exist.")
 
             hashed_password = pwd_context.hash(request.password)
 
@@ -80,4 +80,5 @@ async def register(request: register_request):
             print(f"\nErro ao cadastrar usuário: {request.username}\nStatus code {http_error}\n")
             raise http_error
         
-    raise HTTPException(status_code=500, detail="Erro interno do servidor")
+    print(f'Register route error: Application database not exist.')
+    raise HTTPException(status_code=500, detail="Internal Server error")
