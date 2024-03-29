@@ -21,7 +21,3 @@ def verify_session(username: str, session_id: str):
             return None
     except Exception as error:
         print(f'Erro ao verificar sessão: {error}')
-
-def create_token(data: dict):
-    encoded_jwt = jwt.encode(data, secret_key, algorithm="HS256")
-    return encoded_jwt
