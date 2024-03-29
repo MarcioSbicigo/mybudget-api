@@ -2,7 +2,7 @@ from fastapi import HTTPException
 from fastapi.responses import JSONResponse
 from models.model_receive import GetReceives, PostReceive
 from models.model_expense import GetExpenses, PostExpense
-from dependencies.database_requests import get_user_database_connection
+from dependencies.database_requests import get_user_database_connection, insert_log
 from dependencies.data_verification import verify_session
 from fastapi import APIRouter
 
@@ -39,6 +39,8 @@ def post_data_receives(request: PostReceive):
                
         try:
             user_db['receitas'].insert_one(receive)
+            insert_log(f'Inserted receive', 'log_operations', f'mb_{request.username}')
+            
             return JSONResponse(content={"Content": "Success: Receive successfully added."})
         except Exception as error:
             raise HTTPException(status_code=500, detail="Internal error: The record could not be inserted into the database") 
@@ -78,6 +80,8 @@ def post_data_expenses(request: PostExpense):
         
         try:
             user_db['despesas'].insert_one(expense)
+            insert_log(f'Inserted expense', 'log_operations', f'mb_{request.username}')
+            
             return JSONResponse(content={"Content": "Success: Expense successfully added."})
         except Exception as error:
             raise HTTPException(status_code=500, detail="Internal error: The record could not be inserted into the database.") 

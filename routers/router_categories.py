@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from fastapi.responses import JSONResponse
 from models.model_category import *
-from dependencies.database_requests import get_user_database_connection
+from dependencies.database_requests import get_user_database_connection, insert_log
 from dependencies.data_verification import verify_session
 from fastapi import APIRouter
 
@@ -33,6 +33,8 @@ async def insert_category(request: PostCategory):
             
             if not existing_category:
                 user_db['categorias_receita'].insert_one({'name': request.name_category})
+                insert_log(f'Added receive category: {request.name_category}', 'log_operations', f'mb_{request.username}')
+                
                 return JSONResponse(content={"Content": "Success: Income category successfully added."})
             else:
                 raise HTTPException(status_code=409, detail="Conflict: Income category already exists.")
@@ -42,6 +44,8 @@ async def insert_category(request: PostCategory):
             
             if not existing_category:
                 user_db['categorias_despesa'].insert_one({'name': request.name_category})
+                insert_log(f'Added expense category: {request.name_category}', 'log_operations', f'mb_{request.username}')
+                
                 return JSONResponse(content={"Content": "Success: Expense category successfully added."})
             else:
                 raise HTTPException(status_code=409, detail="Conflict: Expense category already exists.")
@@ -59,6 +63,8 @@ def remove_category(request: DeleteCategory):
             
             if existing_category:
                 user_db['categorias_receita'].delete_one({'name': request.name_category})
+                insert_log(f'Deleted receive category: {request.name_category}', 'log_operations', f'mb_{request.username}')
+                
                 return JSONResponse(content={"Content": "Income category successfully removed."})
             else:
                 raise HTTPException(status_code=404, detail="Not found: Income category not exist.")
@@ -68,6 +74,8 @@ def remove_category(request: DeleteCategory):
             
             if existing_category:
                 user_db['categorias_despesa'].delete_one({'name': request.name_category})
+                insert_log(f'Deleted expense category: {request.name_category}', 'log_operations', f'mb_{request.username}')
+                
                 return JSONResponse(content={"Content": "Expense category successfully removed."})
             else:
                 raise HTTPException(status_code=404, detail="Not found: Expense category not exist.")
