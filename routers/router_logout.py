@@ -9,13 +9,17 @@ router = APIRouter()
 
 @router.post("/api/logout")
 async def login(request: LogoutRequest):
-    user = get_users_collection().find_one({"username": request.username})
-    
-    if not user:
-        raise HTTPException(status_code=401, detail="Usuário inválido.")
-    
-    else:
-        get_users_collection().update_one({"_id": ObjectId(user["_id"])}, {"$set": {"session_id": ''}})
-        get_sessions_collection.delete_one({"username": user["username"]})
+    try:    
+        user = get_users_collection().find_one({"username": request.username})
         
-        return JSONResponse(content={"Status": "Successful logout"})
+        if not user:
+            raise HTTPException(status_code=401, detail="Usuário inválido.")
+        
+        else:
+            get_users_collection().update_one({"_id": ObjectId(user["_id"])}, {"$set": {"session_id": ''}})
+            get_sessions_collection().delete_one({"username": user["username"]})
+            
+            return JSONResponse(content={"Status": "Successful logout"})
+    except Exception as error:
+        print(f'Logout route error: {error}')
+        raise HTTPException(status_code=500, detail="Internal error from logout route.")
