@@ -8,7 +8,7 @@ from fastapi import APIRouter
 router = APIRouter()
 
 @router.get("/api/categories")
-async def load_categories(request: GetCategorie):
+async def load_categories(request: GetCategories):
     if verify_session(request.username, request.session_id):
         
         user_db = get_user_database_connection(request.username)
@@ -24,7 +24,7 @@ async def load_categories(request: GetCategorie):
         raise HTTPException(status_code=401, detail="Operation not permitted: Expired Session.")
 
 @router.post("/api/categories")
-async def insert_category(request: PostCategorie):
+async def insert_category(request: PostCategory):
     if verify_session(request.username, request.session_id):
         user_db = get_user_database_connection(request.username)
         

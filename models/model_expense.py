@@ -1,7 +1,13 @@
 from pydantic import BaseModel
 from datetime import datetime
 
-class Despesa(BaseModel):
+class GetExpenses(BaseModel):
+    username: str
+    session_id: str
+    
+class PostExpense(BaseModel):
+    username: str
+    session_id: str
     value: float
     received: bool
     fixed: bool

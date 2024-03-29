@@ -4,43 +4,37 @@ from datetime import datetime
 from models.model_requests import RegisterRequest
 from dependencies.database_requests import *
 from fastapi import APIRouter
-from pandas import DataFrame
 
 router = APIRouter()
 register_request = RegisterRequest
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def init_database_user(username):
-       
-    data_structure = {'Value': [0],
-                      'Received': [1],
-                      'Fixed': [0],
-                      'Date': [datetime.datetime.strptime('1900-01-01', '%Y-%m-%d')],
-                      'Category': [''],
-                      'Description': ['*transacao-inicial*']}
     
+    data_structure = {
+        'date': datetime.datetime.now(),
+        'description': '*transacao-inicial*'
+        }
+
     categorias_receita = ["Salário", "Rendimentos", "Vendas", "Cashback"]
     categorias_despesa = ["Alimentação", "Aluguel", "Água", "Luz", "Combustível", "Saúde", "Lazer"]
     
-    db_user = get_user_database_connection(username)
+    user_db = get_user_database_connection(username)
     
-    if db_user is not None:
+    if user_db is not None:
         try:
-            df_receitas_despesas = DataFrame(data_structure)
-                        
-            # Salvando o DataFrame de receitas no MongoDB
-            db_user['receitas'].insert_many(df_receitas_despesas.to_dict('records'))
-            db_user['despesas'].insert_many(df_receitas_despesas.to_dict('records'))
+            user_db['receitas'].insert_one(data_structure)
+            user_db['despesas'].insert_one(data_structure)
             
             # Inserindo categorias de receitas
             for categoria in categorias_receita:
                 cat = {'name': categoria}
-                db_user['categorias_receita'].insert_one(cat)
+                user_db['categorias_receita'].insert_one(cat)
             
             # Inserindo categorias de despesas
             for categoria in categorias_despesa:
                 cat = {'name': categoria}
-                db_user['categorias_despesa'].insert_one(cat)
+                user_db['categorias_despesa'].insert_one(cat)
                 
             insert_log(f'Banco de dados criado: mb_{username}.')
             
