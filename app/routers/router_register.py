@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from passlib.context import CryptContext
 from datetime import datetime
-from app.models.model_requests import RegisterRequest
+from app.models.model_auth_requests import RegisterRequest
 from app.dependencies.database_requests import *
 from fastapi import APIRouter
 

@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from fastapi.responses import JSONResponse
 from bson.objectid import ObjectId
-from app.models.model_requests import LogoutRequest
+from app.models.model_auth_requests import LogoutRequest
 from app.dependencies.database_requests import get_users_collection, get_sessions_collection
 from fastapi import APIRouter
 
