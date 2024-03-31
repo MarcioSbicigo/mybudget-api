@@ -1,9 +1,9 @@
 from fastapi import HTTPException
 from fastapi.responses import JSONResponse
-from models.model_receive import GetReceives, PostReceive
-from models.model_expense import GetExpenses, PostExpense
-from dependencies.database_requests import get_user_database_connection, insert_log
-from dependencies.data_verification import verify_session
+from app.models.model_receive import GetReceives, PostReceive
+from app.models.model_expense import GetExpenses, PostExpense
+from app.dependencies.database_requests import get_user_database_connection, insert_log
+from app.dependencies.data_verification import verify_session
 from fastapi import APIRouter
 
 router = APIRouter()

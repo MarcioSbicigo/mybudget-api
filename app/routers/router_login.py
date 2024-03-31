@@ -3,10 +3,11 @@ from fastapi.responses import JSONResponse
 from bson.objectid import ObjectId
 import uuid
 from datetime import datetime, timedelta
-from models.model_requests import LoginRequest
-from dependencies.database_requests import get_users_collection, get_sessions_collection
-from dependencies.data_verification import *
+from app.models.model_requests import LoginRequest
+from app.dependencies.database_requests import get_users_collection, get_sessions_collection
+from app.dependencies.data_verification import *
 from fastapi import APIRouter
+import jwt
 
 router = APIRouter()
 

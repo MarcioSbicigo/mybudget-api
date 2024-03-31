@@ -1,6 +1,6 @@
 import datetime
 from pymongo import MongoClient
-from config import Secrets
+from app.config import Secrets
 
 mongo_uri = Secrets.MONGO_URI
 app_db_name = Secrets.APP_DB_NAME

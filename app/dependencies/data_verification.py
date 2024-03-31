@@ -1,7 +1,6 @@
 from passlib.context import CryptContext
 from datetime import datetime
-from dependencies.database_requests import get_sessions_collection
-import jwt
+from app.dependencies.database_requests import get_sessions_collection
 
 secret_key = 'Eu4Ug%I_DIPr90['
 # secret_key = Secrets.SECRET_KEY
