@@ -2,16 +2,10 @@ import datetime
 from pymongo import MongoClient
 from app.config import Secrets
 
-mongo_uri = Secrets.MONGO_URI
-app_db_name = Secrets.APP_DB_NAME
-users_collection = Secrets.USERS_COLLECTION
-sessions_collection = Secrets.SESSIONS_COLLECTION
-
 def get_database_connection():
     try:
-        client = MongoClient("mongodb://localhost:27017/")
-        # db = client[app_db_name]
-        db = client['MyBudget']
+        client = MongoClient(Secrets.MONGO_URI)
+        db = client[Secrets.APP_DB_NAME]
         
         return db
     
@@ -21,7 +15,7 @@ def get_database_connection():
 
 def get_user_database_connection(username: str):
     try:
-        client = MongoClient("mongodb://localhost:27017/")
+        client = MongoClient(Secrets.MONGO_URI)
         database_name = f'mb_{username}'
         
         db = client[database_name]
@@ -34,10 +28,9 @@ def get_user_database_connection(username: str):
 
 def get_users_collection():
     try:
-        client = MongoClient("mongodb://localhost:27017/")
-        # db = client[app_db_name]
-        db = client['MyBudget']
-        users_collection = db['all_users']
+        client = MongoClient(Secrets.MONGO_URI)
+        db = client[Secrets.APP_DB_NAME]
+        users_collection = db[Secrets.USERS_COLLECTION]
         
         return users_collection
     
@@ -47,10 +40,9 @@ def get_users_collection():
 
 def get_sessions_collection():
     try:
-        client = MongoClient("mongodb://localhost:27017/")
-        # db = client['STD_DB_NAME']
-        db = client['MyBudget']
-        sessions_collection = db['all_sessions']
+        client = MongoClient(Secrets.MONGO_URI)
+        db = client[Secrets.APP_DB_NAME]
+        sessions_collection = db[Secrets.SESSIONS_COLLECTION]
         
         return sessions_collection
     
@@ -58,9 +50,9 @@ def get_sessions_collection():
         print(f'Error accessing sessions collection: {error}')
         return None
 
-def insert_log(event: str, collection='log_api', database_name='MyBudget'):
+def insert_log(event: str, collection="log_api", database_name=Secrets.APP_DB_NAME):
     try:
-        client = MongoClient("mongodb://localhost:27017/")
+        client = MongoClient(Secrets.MONGO_URI)
         db = client[database_name]
         
         app_log = db[collection]

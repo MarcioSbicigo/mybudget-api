@@ -1,9 +1,9 @@
 from passlib.context import CryptContext
 from datetime import datetime
 from app.dependencies.database_requests import get_sessions_collection
+from config import Secrets
 
-secret_key = 'Eu4Ug%I_DIPr90['
-# secret_key = Secrets.SECRET_KEY
+secret_key = Secrets.SECRET_KEY
 
 def verify_password(plain_password, hashed_password):
     pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
