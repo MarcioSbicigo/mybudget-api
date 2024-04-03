@@ -1,7 +1,7 @@
 from passlib.context import CryptContext
 from datetime import datetime
 from app.dependencies.database_requests import get_sessions_collection
-from config import Secrets
+from app.config import Secrets
 
 secret_key = Secrets.SECRET_KEY
 

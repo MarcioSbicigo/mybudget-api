@@ -6,7 +6,6 @@ from app.dependencies.database_requests import *
 from fastapi import APIRouter
 
 router = APIRouter()
-register_request = RegisterRequest
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def init_database_user(username):
@@ -42,7 +41,7 @@ def init_database_user(username):
             print(f'Error initializing {username} database: {error}')
 
 @router.post("/api/register")
-async def register(request: register_request):
+async def register(request: RegisterRequest):
     db = get_database_connection()
     
     if db is not None:
@@ -73,11 +72,14 @@ async def register(request: register_request):
             get_users_collection().insert_one(new_user)
                 
             init_database_user(request.username)
+            
+            insert_log(f"User successfully registered: {request.username}")
 
-            return {"message": f"Usuário registrado com sucesso: {request.username}"}
+            return {"message": f"User successfully registered: {request.username}"}
         
         except HTTPException as http_error:
-            print(f"\nErro ao cadastrar usuário: {request.username}\nStatus code {http_error}\n")
+            print(f"\nUser registration error: {request.username}\nStatus code: {http_error}\n")
+            insert_log(f"\nUser registration error: {request.username}\nStatus code: {http_error}\n")
             raise http_error
         
     print(f'Register route error: Application database not exist.')
