@@ -58,7 +58,7 @@ def get_sessions_collection():
         print(f'Error accessing sessions collection: {error}')
         return None
 
-def insert_log(event: str, collection='log_application', database_name='MyBudget'):
+def insert_log(event: str, collection='log_api', database_name='MyBudget'):
     try:
         client = MongoClient("mongodb://localhost:27017/")
         db = client[database_name]
