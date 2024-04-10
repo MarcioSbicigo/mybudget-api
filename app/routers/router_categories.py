@@ -58,7 +58,7 @@ def remove_category(request: DeleteCategory):
     if verify_session(request.username, request.session_id):
         user_db = get_user_database_connection(request.username)
         
-        if request.type_category == 'receita':
+        if request.type_category == 'receive':
             existing_category = user_db['categorias_receita'].find_one({'name': request.name_category})
             
             if existing_category:
@@ -69,7 +69,7 @@ def remove_category(request: DeleteCategory):
             else:
                 raise HTTPException(status_code=404, detail="Not found: Income category not exist.")
 
-        if request.type_category == 'despesa':
+        if request.type_category == 'expense':
             existing_category = user_db['categorias_despesa'].find_one({'name': request.name_category})
             
             if existing_category:
