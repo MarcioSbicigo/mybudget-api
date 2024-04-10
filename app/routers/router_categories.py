@@ -13,12 +13,12 @@ async def load_categories(request: GetCategories):
         
         user_db = get_user_database_connection(request.username)
         
-        if request.type_category == 'receita':
-            categories = list(user_db['categorias_receita'].find({}, {'_id': 0, 'nome': 1}))
+        if request.type_category == 'receive':
+            categories = list(user_db['categorias_receita'].find({}, {'_id': 0, 'name': 1}))
             return JSONResponse(content={"Content": categories})
 
-        if request.type_category == 'despesa':
-            categories = list(user_db['categorias_despesa'].find({}, {'_id': 0, 'nome': 1}))
+        if request.type_category == 'expense':
+            categories = list(user_db['categorias_despesa'].find({}, {'_id': 0, 'name': 1}))
             return JSONResponse(content={"Content": categories})
     else:
         raise HTTPException(status_code=401, detail="Operation not permitted: Expired Session.")
@@ -28,7 +28,7 @@ async def insert_category(request: PostCategory):
     if verify_session(request.username, request.session_id):
         user_db = get_user_database_connection(request.username)
         
-        if request.type_category == 'receita':
+        if request.type_category == 'receive':
             existing_category = user_db['categorias_receita'].find_one({'name': request.name_category})
             
             if not existing_category:
@@ -39,7 +39,7 @@ async def insert_category(request: PostCategory):
             else:
                 raise HTTPException(status_code=409, detail="Conflict: Income category already exists.")
 
-        if request.type_category == 'despesa':
+        if request.type_category == 'expense':
             existing_category = user_db['categorias_despesa'].find_one({'name': request.name_category})
             
             if not existing_category:

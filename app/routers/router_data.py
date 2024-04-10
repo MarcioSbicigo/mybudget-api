@@ -16,8 +16,8 @@ def load_receives(request: GetReceives):
         
         receives = list(user_db['receitas'].find({}, {'_id': 0}))
         for receive in receives:
-            if 'Date' in receive:
-                receive['Date'] = receive['Date'].strftime('%Y-%m-%d %H:%M:%S')
+            if 'date' in receive:
+                receive['date'] = receive['date'].strftime('%Y-%m-%d %H:%M:%S')
         
         return JSONResponse(content={"Content": receives})
     else:
@@ -57,8 +57,8 @@ def load_expenses(request: GetExpenses):
         
         expenses = list(user_db['despesas'].find({}, {'_id': 0}))
         for expense in expenses:
-            if 'Date' in expense:
-                expense['Date'] = expense['Date'].strftime('%Y-%m-%d %H:%M:%S')
+            if 'date' in expense:
+                expense['date'] = expense['date'].strftime('%Y-%m-%d %H:%M:%S')
         
         return JSONResponse(content={"Content": expenses})
     else:
