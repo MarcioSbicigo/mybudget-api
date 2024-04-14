@@ -11,7 +11,11 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 def init_database_user(username):
     
     data_structure = {
+        'value':float(0), 
+        'received': bool(0), 
+        'fixed': bool(0), 
         'date': datetime.datetime.now(),
+        'category': '', 
         'description': '*transacao-inicial*'
         }
 
