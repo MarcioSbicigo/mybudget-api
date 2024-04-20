@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from bson.objectid import ObjectId
 import uuid
 from datetime import datetime, timedelta
-from app.models.model_auth_requests import LoginRequest
+from app.models.model_auth_requests import LoginRequest, SessionStatusRequest
 from app.dependencies.database_requests import get_users_collection, get_sessions_collection
 from app.dependencies.data_verification import *
 from fastapi import APIRouter
@@ -76,3 +76,13 @@ async def login(request: LoginRequest):
     except Exception as error:
         print(f'Authentication route error: {error}')
         raise HTTPException(status_code=500, detail="Internal error from authentication route.")
+    
+# Rota que verifica se a sessão do usuário é válida
+@router.get('/api/session')
+async def register(request: SessionStatusRequest):
+    session = verify_session(request.username, request.session_id)
+    
+    if session:
+        return JSONResponse(content={"Status": "Valid session."})
+    else:
+        raise HTTPException(status_code=401, detail="Invalid session or expired.")

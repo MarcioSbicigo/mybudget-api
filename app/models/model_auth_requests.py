@@ -12,3 +12,7 @@ class LoginRequest(BaseModel):
     
 class LogoutRequest(BaseModel):
     username: str
+
+class SessionStatusRequest(BaseModel):
+    username: str
+    session_id: str
