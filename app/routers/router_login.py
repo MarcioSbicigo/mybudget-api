@@ -6,12 +6,13 @@ from datetime import datetime, timedelta
 from app.models.model_auth_requests import LoginRequest, SessionStatusRequest
 from app.dependencies.database_requests import get_users_collection, get_sessions_collection
 from app.dependencies.data_verification import *
+from app.config import Secrets
 from fastapi import APIRouter
 import jwt
 
 router = APIRouter()
 
-def create_token(data: dict):
+def create_token(data: dict, secret_key=Secrets.SECRET_KEY):
     encoded_jwt = jwt.encode(data, secret_key, algorithm="HS256")
     return encoded_jwt
 
