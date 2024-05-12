@@ -68,7 +68,6 @@ async def register(request: RegisterRequest):
                 "full_name": request.full_name,
                 "email": request.email,
                 "password": hashed_password,
-                "session_id": '',
                 "last_login": '',
                 "register_date": current_time
             }

@@ -11,8 +11,8 @@ def verify_password(plain_password, hashed_password):
 
 def verify_session(username: str, session_id: str):
     try:
-        existing_session = get_sessions_collection().find_one({"username": username})
-        if existing_session and existing_session["session_id"] == session_id:
+        existing_session = get_sessions_collection().find_one({"username": username, "session_id": session_id})
+        if existing_session:
             expiration_time = datetime.strptime(existing_session["expire_time"], '%Y-%m-%d %H:%M:%S')
             current_time = datetime.now()
             return True if (current_time < expiration_time) else None
