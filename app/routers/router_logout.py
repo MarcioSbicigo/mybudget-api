@@ -16,7 +16,6 @@ async def login(request: LogoutRequest):
             raise HTTPException(status_code=401, detail="Usuário inválido.")
         
         else:
-            get_users_collection().update_one({"_id": ObjectId(user["_id"])}, {"$set": {"session_id": ''}})
             get_sessions_collection().delete_one({"username": user["username"]})
             
             return JSONResponse(content={"Status": "Successful logout"})
